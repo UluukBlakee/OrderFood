@@ -40,7 +40,11 @@
                     <td>@dish.Description</td>
                     <td>@dish.Price</td>
                     <td>
-                        <a asp-controller="Vacancies" asp-action="Add" asp-route-id="@dish.Id">Добавить в корзину</a>
+                        <a asp-controller="Vacancies" asp-action="Add" asp-route-id="@dish.Id">Добавить в корзину</a> |
+                        @if (User.IsInRole("admin"))
+                        {
+                            <a asp-controller="Dishes" asp-action="Delete" asp-route-id="@dish.Id">Удалить</a>
+                        }
                     </td>
                 </tr>
             }

@@ -17,17 +17,41 @@ namespace OrderFood.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        public ActionResult Create()
+        public ActionResult Create(int cafeId)
         {
+            ViewBag.CafeId = cafeId;
             return View();
         }
-
-        [Authorize(Roles = "admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(User user)
+        public async Task<IActionResult> Create(Dish dish)
         {
-            return View();
+            if (dish != null)
+            {
+                await _context.Dishes.AddAsync(dish);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Cafes", new { id = dish.CafesId });
+            }
+            return View(dish);
+        }
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            Dish dish = await _context.Dishes.FirstOrDefaultAsync(d => d.Id == id);
+            return View(dish);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            Dish dish = await _context.Dishes.FirstOrDefaultAsync(d => d.Id == id);
+            if (dish != null)
+            {
+                _context.Dishes.Remove(dish);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Cafes", new { id = dish.CafesId });
+            }
+            return View(dish);
         }
     }
 }
