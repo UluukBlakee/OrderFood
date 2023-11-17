@@ -1,0 +1,53 @@
+﻿@model IEnumerable<OrderFood.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                Роль
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            @if (item.Email != User.Identity.Name)
+            {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @if (await ViewBag.UserManager.IsInRoleAsync(item, "admin"))
+                            {
+                                <span>Admin</span>
+                            }
+                            else
+                            {
+                                <span>User</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a> |
+                            @if (await ViewBag.UserManager.IsInRoleAsync(item, "user"))
+                            {
+                               <a asp-action="GiveRole" asp-route-id="@item.Id">Сделать админом</a>
+                            }
+                        </td>
+                    </tr>
+            }
+    }
+    </tbody>
+</table>
