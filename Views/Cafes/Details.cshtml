@@ -1,0 +1,56 @@
+﻿@model OrderFood.Models.Cafe
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="row mb-5">
+    <div class="col-md-4">
+        <img src="@Model.Image" alt="Avatar" class="img-fluid" id="userAvatar">
+    </div>
+    <div class="col-md-8">
+        <h4 id="name">@Html.DisplayFor(model => model.Name)</h4>
+        <hr />
+        <p>
+            @Model.Description
+        </p>
+    </div>
+</div>
+
+
+
+@if (Model.Dishes.Any())
+        {
+            <h4>Блюда</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Описание</th>
+                        <th>Цена</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var dish in Model.Dishes)
+                    {
+                        <tr>
+                            <td>@dish.Name</td>
+                            <td>@dish.Description<td>
+                            <td>@dish.Price</td>
+                            <td>
+                                <a asp-controller="Vacancies" asp-action="Add" asp-route-id="@dish.Id">Добавить в корзину</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <h4 class="text-center">Нету блюд</h4>
+        }
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

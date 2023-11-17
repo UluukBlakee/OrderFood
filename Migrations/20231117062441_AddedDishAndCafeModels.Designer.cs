@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderFood.Models;
@@ -11,9 +12,10 @@ using OrderFood.Models;
 namespace OrderFood.Migrations
 {
     [DbContext(typeof(OrdFoodContext))]
-    partial class OrdFoodContextModelSnapshot : ModelSnapshot
+    [Migration("20231117062441_AddedDishAndCafeModels")]
+    partial class AddedDishAndCafeModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,12 +186,6 @@ namespace OrderFood.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CafeId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CafesId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -200,8 +196,6 @@ namespace OrderFood.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CafeId");
 
                     b.ToTable("Dishes");
                 });
@@ -322,15 +316,6 @@ namespace OrderFood.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OrderFood.Models.Dish", b =>
-                {
-                    b.HasOne("OrderFood.Models.Cafe", "Cafe")
-                        .WithMany()
-                        .HasForeignKey("CafeId");
-
-                    b.Navigation("Cafe");
                 });
 #pragma warning restore 612, 618
         }

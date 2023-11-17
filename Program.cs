@@ -50,7 +50,7 @@ namespace OrderFood
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Cafes}/{action=Index}/{id?}");
 
             app.Run();
         }

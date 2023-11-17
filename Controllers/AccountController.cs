@@ -33,13 +33,14 @@ namespace OrderFood.Controllers
                 User user = new User
                 {
                     Email = model.Email,
+                    UserName = model.Email
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "user");
                     await _signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Cafes");
                 }
                 foreach (var error in result.Errors)
                     ModelState.AddModelError(string.Empty, error.Description);
@@ -74,7 +75,7 @@ namespace OrderFood.Controllers
                             return Redirect(model.ReturnUrl);
                         }
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Cafes");
                     }
                 }
                 ModelState.AddModelError("", "Неправильный логин и (или) пароль");
@@ -85,7 +86,7 @@ namespace OrderFood.Controllers
         public async Task<IActionResult> LogOff()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Cafes");
         }
     }
 }
