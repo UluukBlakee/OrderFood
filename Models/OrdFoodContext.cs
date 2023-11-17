@@ -9,6 +9,7 @@ namespace OrderFood.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Cafe> Cafes { get; set; }
         public DbSet<Dish> Dishes { get; set; }
+        public DbSet<Cart> Carts { get; set; }
         public OrdFoodContext(DbContextOptions<OrdFoodContext> options) : base(options) { }
     }
 }
